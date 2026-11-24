@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10131a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon.svg">
+<title>Rubik AI 3×3</title>
+<style>
+:root{color-scheme:dark;--bg:#10131a;--panel:#1b202b;--muted:#aab3c2;--accent:#79a9ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f7fb;font:16px -apple-system,BlinkMacSystemFont,system-ui,sans-serif;padding:env(safe-area-inset-top) 16px calc(22px + env(safe-area-inset-bottom))}
+main{max-width:600px;margin:auto}header{padding:18px 0 10px}h1{font-size:27px;margin:0 0 5px}p{color:var(--muted);line-height:1.45}.panel{background:var(--panel);border:1px solid #303849;border-radius:18px;padding:15px;margin:13px 0}
+.faces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.face{padding:12px 4px;border:1px solid #3a4353;border-radius:12px;background:#242b38;color:white;font-weight:700}.face.active{outline:2px solid var(--accent);background:#293b58}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#07090d;padding:8px;border-radius:12px;max-width:330px;margin:12px auto}
+.sticker{aspect-ratio:1;border:2px solid #555b66;border-radius:7px;background:#343b48;display:grid;place-items:center;color:#17191e;font-weight:800;font-size:12px}
+button,.filebtn{border:0;border-radius:12px;padding:14px 12px;background:#2b3444;color:#fff;font-size:15px;font-weight:650;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.primary{background:#78a7ff;color:#08101e;width:100%;margin-top:8px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions>*{width:100%}
+input[type=file]{display:none}.small{font-size:12px}.status{min-height:42px;background:#141a24;padding:10px;border-radius:10px;color:#c5d5ef;font-size:13px}
+.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.swatch{height:38px;border-radius:9px;border:2px solid #ffffff38}
+label{font-size:13px;color:var(--muted)}.countrow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #ffffff12}
+video,canvas{width:100%;border-radius:12px}#cameraBox{display:none}#cameraBox.show{display:block}
+a{color:#a9c9ff} .warn{color:#ffcf79}
+</style></head>
+<body><main>
+<header><h1>🧩 Rubik AI 3×3</h1><p>Автономный сканер кубика · обработка на устройстве</p></header>
+<section class="panel">
+<strong>1. Выберите сторону</strong><p class="small">Сканируйте стороны в порядке U, R, F, D, L, B. Центры задают цвет каждой стороны.</p>
+<div class="faces" id="faces"></div>
+<div class="grid" id="cubeGrid"></div>
+<div class="actions">
+<label class="filebtn">📷 Фото стороны<input id="photo" type="file" accept="image/*" capture="environment"></label>
+<button id="cameraBtn">🎥 Камера</button>
+</div>
+<div id="cameraBox"><video id="video" autoplay playsinline></video><div class="actions"><button id="snap">Снять кадр</button><button id="stop">Закрыть камеру</button></div></div>
+<p class="small">Фото должно показывать одну сторону почти прямо, целиком, без бликов. После распознавания проверьте все 9 клеток.</p>
+</section>
+<section class="panel"><strong>2. Исправить цвет клетки</strong><p class="small">Нажмите клетку, затем выберите правильный цвет.</p><div class="swatches" id="swatches"></div></section>
+<section class="panel"><strong>3. Проверка кубика</strong><div id="counts"></div><button class="primary" id="solve">Проверить и подготовить решение</button><p id="result" class="status">Пока не все стороны отсканированы.</p></section>
+<section class="panel"><strong>О проекте</strong><p class="small">Текущая версия распознаёт цвет по центральным пикселям изображения и позволяет исправлять ошибки. Это локальный прототип компьютерного зрения, а не обученная нейросеть. Полноценный Kociemba solver и обученная модель пока не включены.</p><p class="small">Данные хранятся в локальном хранилище браузера. Внешние API не вызываются.</p></section>
+</main>
+<script src="app.js"></script><script>if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js');</script>
+</body></html>
